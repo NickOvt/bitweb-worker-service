@@ -7,3 +7,16 @@ spring:
     exchange: vote.exchange
     queue: vote.queue
     routingkey: vote.routingkey
+
+  datasource:
+    jdbc-url: jdbc:postgresql://localhost:5432/bitwebtest_db
+    username: postgres
+    password: password
+    pool-size: 30
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
