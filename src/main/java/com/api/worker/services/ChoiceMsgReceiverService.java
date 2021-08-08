@@ -10,6 +10,9 @@ import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistrar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+
+
 @Service
 public class ChoiceMsgReceiverService implements RabbitListenerConfigurer {
 
@@ -20,7 +23,6 @@ public class ChoiceMsgReceiverService implements RabbitListenerConfigurer {
         this.choiceDao = choiceDao;
     }
 
-    //private static final Logger logger = LoggerFactory.getLogger(ChoiceMsgReceiverService.class);
     private static final Logger logger = LoggerFactory.getLogger(ChoiceMsgReceiverService.class);
 
     @Override
@@ -29,7 +31,9 @@ public class ChoiceMsgReceiverService implements RabbitListenerConfigurer {
 
     @RabbitListener(queues = "${spring.rabbitmq.queue}")
     public void receivedMessage(Choice choice) {
-        logger.info("Choice details received is.. " + choice.getChoice() +  "<");
+        Instant instant = Instant.now();
+        long timeStampMillis = instant.toEpochMilli();
+        logger.info("Choice details received is.. " + "> " + choice.getChoice() +  " < - timestamp: " + timeStampMillis);
         choiceDao.insertChoice(choice);
     }
 }
